@@ -1,14 +1,23 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, createContext, useContext } from "react";
 import ReactPlayer from "react-player";
 import SeekBar from "./SeekBar";
+import AppContext from "../Context/CreateContext";
 
 function PLayer() {
+  const {myInputURL} = useContext(AppContext)
   const [inputURL, setInputUrl] = useState(null);
+  const [state, setState] = useState({value: 10})
+  useEffect(()=>{
+    console.log('Input URL Changed')
+    setState(prev => {
+      return {...prev}
+  })
+  },[myInputURL])
 
-  const initialURL = "https://www.youtube.com/shorts/xM4CAkG9BHg";
+  const initialURL = "https://www.youtube.com/watch?v=1w7OgIMMRc4&pp=ygUSc3dlZXQgY2hpbGQgbyBtaW5l";
 
-  const [myUrl, setMyUrl] = useState(initialURL);
-
+  // const [myUrl, setMyUrl] = useState(initialURL);
+ 
   const [mySpeed, setMySpeed] = useState(1);
 
   function urlManage(e) {
@@ -68,7 +77,10 @@ function PLayer() {
     <div>
       <ReactPlayer
         id="app"
-        url={myUrl}
+        // url={myInputURL?myInputURL:initialURL}
+        // url={"https://www.youtube.com/watch?v=1w7OgIMMRc4&pp=ygUSc3dlZXQgY2hpbGQgbyBtaW5l"}
+         url={myInputURL}
+
         playing={isPlaying}
         autoPLay={true}
         muted
